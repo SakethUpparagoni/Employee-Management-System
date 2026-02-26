@@ -1,5 +1,5 @@
 <%@ page import="com.EmployeeManagementSystem.service.EmployeeService"%>
-<%! EmployeeService  employeeService = new EmployeeService();%>
+<%! EmployeeService  employeeService = EmployeeService.getInstance();%>
 
 
 <%

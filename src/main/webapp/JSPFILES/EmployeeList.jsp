@@ -9,7 +9,7 @@
 <title>Employee List</title>
 </head>
 <body>
-	<%! EmployeeService  employeeService = new EmployeeService();%>
+	<%! EmployeeService  employeeService = EmployeeService.getInstance();%>
 	
 	<table border="1">
 		<tr>

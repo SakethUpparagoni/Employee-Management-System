@@ -9,7 +9,7 @@
 <title>User Signing In</title>
 </head>
 <body>
-	<%! EmployeeService  employeeService = new EmployeeService();%>
+	<%! EmployeeService  employeeService = EmployeeService.getInstance();%>
 
 	<jsp:useBean class="com.EmployeeManagementSystem.entity.Employee" id="employee" />
 	<jsp:setProperty name="employee" property="employeName" param="empName" />

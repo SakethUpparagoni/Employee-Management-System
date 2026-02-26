@@ -9,7 +9,7 @@
 <title>Updating Password</title>
 </head>
 <body>
-	<%! EmployeeService  employeeService = new EmployeeService();%>
+	<%! EmployeeService  employeeService = EmployeeService.getInstance();%>
 
 	<jsp:useBean class="com.EmployeeManagementSystem.entity.Employee" id="employee" scope="session" />
 	<jsp:setProperty name="employee" property="employeMail" param="emadd" />

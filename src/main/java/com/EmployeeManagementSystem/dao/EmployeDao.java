@@ -1,6 +1,6 @@
 package com.EmployeeManagementSystem.dao;
 
-import java.sql.Connection;  
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,121 +10,91 @@ import com.EmployeeManagementSystem.entity.Employee;
 
 public class EmployeDao {
 
-	public boolean insertEmployee(Employee employee) {
-		boolean isInsertEmp = false;
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		String url = "jdbc:mysql://localhost:3306/employeeinfo";
-		String user = "root";
-		String password = "2106";
-
+	// Added Singleton Pattern
+	private static EmployeDao employeDao;
+	private static final String url = "jdbc:mysql://localhost:3306/employeeinfo";
+	private static final String user = "root";
+	private static final String password = "2106";
+	
+	// Load Diver once
+	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(url, user, password);
-			String InsQueery = "INSERT INTO EMPLOYEEDATA(EMPNAME, EMPEMAIL, EMPPASSWORD, ROLE_OF_EMP) VALUES(?, ?, ?, ?)";
-			ps = con.prepareStatement(InsQueery);
+		}
+		catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		}
+		
+	}
+
+	private EmployeDao() {
+		System.out.println("Employee Daoo Constructor");
+	}
+	
+	public  static EmployeDao getInstance() {
+		if (employeDao == null) {
+			employeDao = new EmployeDao();
+		}
+		return employeDao;
+	}
+
+	
+
+	public boolean insertEmployee(Employee employee) {
+
+		String InsQueery = "INSERT INTO EMPLOYEEDATA(EMPNAME, EMPEMAIL, EMPPASSWORD, ROLE_OF_EMP) VALUES(?, ?, ?, ?)";
+		try (Connection con = DriverManager.getConnection(url, user, password);
+			PreparedStatement ps = con.prepareStatement(InsQueery)) {
 
 			ps.setString(1, employee.getEmployeName());
 			ps.setString(2, employee.getEmployeMail());
 			ps.setString(3, employee.getLoginPassword());
 			ps.setString(4, employee.getRoleOfEmployee());
-
-			int insertion = ps.executeUpdate();
-
-			if (insertion != 0) {
-				isInsertEmp = true;
-			}
-		}
-
-		catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
+			
+			return ps.executeUpdate() > 0; // Added Expression Based Return
+			
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
-		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException sqlEx) {
-				sqlEx.printStackTrace();
-			}
 		}
-		return isInsertEmp;
+		return false ;
 	}
 
 	public boolean searchEmployee(Employee employee) {
-		boolean isFoundEmp = false;
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		String url = "jdbc:mysql://localhost:3306/employeeinfo";
-		String user = "root";
-		String password = "2106";
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(url, user, password);
-			String InsQueery = "SELECT * FROM EMPLOYEEDATA WHERE EMPEMAIL = ? AND EMPPASSWORD = ?";
-			ps = con.prepareStatement(InsQueery);
+		
+		String selQuery = "SELECT * FROM EMPLOYEEDATA WHERE EMPEMAIL = ? AND EMPPASSWORD = ?";
+		
+		try (Connection con = DriverManager.getConnection(url, user, password);
+			PreparedStatement ps = con.prepareStatement(selQuery)) {
 
 			ps.setString(1, employee.getEmployeMail());
 			ps.setString(2, employee.getLoginPassword());
 
-			ResultSet result = ps.executeQuery();
+			try (ResultSet result = ps.executeQuery()) {
+				if (result.next()) {
 
-			if (result.next()) {
-				isFoundEmp = true;
-
-				employee.setEmployeName(result.getString(2));
-				employee.setEmployeMail(result.getString(3));
-				employee.setLoginPassword(result.getString(4));
-				employee.setRoleOfEmployee(result.getString(5));
+					employee.setEmployeName(result.getString(2));
+					employee.setEmployeMail(result.getString(3));
+					employee.setLoginPassword(result.getString(4));
+					employee.setRoleOfEmployee(result.getString(5));
+					return true;
+				}
 			}
-		}
-
-		catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
+			
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
-		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException sqlEx) {
-				sqlEx.printStackTrace();
-			}
-		}
-		return isFoundEmp;
+		} 
+		return false;
 	}
 
 	public ArrayList<Employee> selectAllEmployees() {
 
 		ArrayList<Employee> employeeList = new ArrayList<>();
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		String url = "jdbc:mysql://localhost:3306/employeeinfo";
-		String user = "root";
-		String password = "2106";
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(url, user, password);
-			String selQuery = "SELECT * FROM EMPLOYEEDATA";
-
-			ps = con.prepareStatement(selQuery);
-
-			ResultSet result = ps.executeQuery();
+		String selQuery = "SELECT * FROM EMPLOYEEDATA";	
+		
+		try (Connection con = DriverManager.getConnection(url, user, password);
+			PreparedStatement ps = con.prepareStatement(selQuery);
+			ResultSet result = ps.executeQuery()) {
 
 			while (result.next()) {
 				Employee employee = new Employee();
@@ -136,121 +106,45 @@ public class EmployeDao {
 
 				employeeList.add(employee);
 			}
-		}
-
-		catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
-		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException sqlEx) {
-				sqlEx.printStackTrace();
-			}
-		}
+		} 
 		return employeeList;
 	}
 
 	public boolean deletEmployee(int id, String mail) {
-		boolean isDeleted = false;
+		String delQuery = "DELETE FROM EMPLOYEEDATA WHERE EMPID =? AND EMPEMAIL = ?";
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		String url = "jdbc:mysql://localhost:3306/employeeinfo";
-		String user = "root";
-		String password = "2106";
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(url, user, password);
-			String delQuery = "DELETE FROM EMPLOYEEDATA WHERE EMPID =? AND EMPEMAIL = ?";
-			ps = con.prepareStatement(delQuery);
+		try (Connection con = DriverManager.getConnection(url, user, password);
+				PreparedStatement ps = con.prepareStatement(delQuery)) {
 
 			ps.setInt(1, id);
 			ps.setString(2, mail);
 
-			int rowsEffected = ps.executeUpdate();
-
-			if (rowsEffected != 0) {
-				isDeleted = true;
-			}
-		}
-
-		catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
+			return ps.executeUpdate() > 0;
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
-		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException sqlEx) {
-				sqlEx.printStackTrace();
-			}
 		}
-		return isDeleted;
+		return false;
 	}
 
 	public boolean updateEmployeePassword(Employee employee) {
-		boolean isUpdatedPassword = false;
+		String upQuery = "UPDATE EMPLOYEEDATA  SET EMPPASSWORD=? WHERE EMPEMAIL = ? AND EMPPASSWORD=?";
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		String url = "jdbc:mysql://localhost:3306/employeeinfo";
-		String user = "root";
-		String password = "2106";
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(url, user, password);
-
-			String upQuery = "UPDATE EMPLOYEEDATA  SET EMPPASSWORD=? WHERE EMPEMAIL = ? AND EMPPASSWORD=?";
-
-			ps = con.prepareStatement(upQuery);
+		try (Connection con = DriverManager.getConnection(url, user, password);
+			PreparedStatement ps = con.prepareStatement(upQuery)) {
+			
 
 			ps.setString(1, employee.getNewpassword());
 			ps.setString(2, employee.getEmployeMail());
 			ps.setString(3, employee.getLoginPassword());
 
-			int rowsEffected = ps.executeUpdate();
-
-			if (rowsEffected != 0) {
-				isUpdatedPassword = true;
-
-			} else {
-				isUpdatedPassword = false;
-			}
+			return ps.executeUpdate() > 0;
 		}
 
-		catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
-		} catch (SQLException sqlEx) {
+		 catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
-		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException sqlEx) {
-				sqlEx.printStackTrace();
-			}
 		}
-		return isUpdatedPassword;
+		return false ;
 	}
 }

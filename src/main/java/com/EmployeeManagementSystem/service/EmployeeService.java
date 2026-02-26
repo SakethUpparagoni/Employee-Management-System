@@ -1,12 +1,27 @@
 package com.EmployeeManagementSystem.service;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 import com.EmployeeManagementSystem.dao.EmployeDao;
 import com.EmployeeManagementSystem.entity.Employee;
 
 public class EmployeeService {
-	EmployeDao employeDao = new EmployeDao();
+
+	// Added Singleton Pattern 
+	EmployeDao employeDao = EmployeDao.getInstance();
+
+	private static EmployeeService employeeService;
+
+	private EmployeeService() {
+		System.out.println("Employee Service Constructor");
+	}
+
+	public static EmployeeService getInstance() {
+		if (employeeService == null) {
+			employeeService = new EmployeeService();
+		}
+		return employeeService;
+	}
 
 	public boolean signUpEmployee(Employee employee) {
 

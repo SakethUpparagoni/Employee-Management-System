@@ -10,6 +10,7 @@ public class Employee {
 	private String roleOfEmployee;
 
 	public Employee() {
+		System.out.println("Employeee Constructor");
 	};
 
 	public Employee(int empoyeId, String employeName, String employeMail, String loginPassword) {
