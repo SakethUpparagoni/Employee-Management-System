@@ -7,7 +7,7 @@ import com.EmployeeManagementSystem.entity.Employee;
 
 public class EmployeeService {
 
-	// Added Singleton Pattern 
+	// Added Singleton Pattern
 	EmployeDao employeDao = EmployeDao.getInstance();
 
 	private static EmployeeService employeeService;

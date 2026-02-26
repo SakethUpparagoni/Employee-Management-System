@@ -15,56 +15,53 @@ public class EmployeDao {
 	private static final String url = "jdbc:mysql://localhost:3306/employeeinfo";
 	private static final String user = "root";
 	private static final String password = "2106";
-	
+
 	// Load Diver once
 	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-		}
-		catch (ClassNotFoundException cnfEx) {
+		} catch (ClassNotFoundException cnfEx) {
 			cnfEx.printStackTrace();
 		}
-		
+
 	}
 
 	private EmployeDao() {
 		System.out.println("Employee Daoo Constructor");
 	}
-	
-	public  static EmployeDao getInstance() {
+
+	public static EmployeDao getInstance() {
 		if (employeDao == null) {
 			employeDao = new EmployeDao();
 		}
 		return employeDao;
 	}
 
-	
-
 	public boolean insertEmployee(Employee employee) {
 
 		String InsQueery = "INSERT INTO EMPLOYEEDATA(EMPNAME, EMPEMAIL, EMPPASSWORD, ROLE_OF_EMP) VALUES(?, ?, ?, ?)";
 		try (Connection con = DriverManager.getConnection(url, user, password);
-			PreparedStatement ps = con.prepareStatement(InsQueery)) {
+				PreparedStatement ps = con.prepareStatement(InsQueery)) {
 
 			ps.setString(1, employee.getEmployeName());
 			ps.setString(2, employee.getEmployeMail());
 			ps.setString(3, employee.getLoginPassword());
 			ps.setString(4, employee.getRoleOfEmployee());
-			
+
 			return ps.executeUpdate() > 0; // Added Expression Based Return
-			
+
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
 		}
-		return false ;
+		return false;
 	}
 
 	public boolean searchEmployee(Employee employee) {
-		
+
 		String selQuery = "SELECT * FROM EMPLOYEEDATA WHERE EMPEMAIL = ? AND EMPPASSWORD = ?";
-		
+
 		try (Connection con = DriverManager.getConnection(url, user, password);
-			PreparedStatement ps = con.prepareStatement(selQuery)) {
+				PreparedStatement ps = con.prepareStatement(selQuery)) {
 
 			ps.setString(1, employee.getEmployeMail());
 			ps.setString(2, employee.getLoginPassword());
@@ -79,10 +76,10 @@ public class EmployeDao {
 					return true;
 				}
 			}
-			
+
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
-		} 
+		}
 		return false;
 	}
 
@@ -90,11 +87,11 @@ public class EmployeDao {
 
 		ArrayList<Employee> employeeList = new ArrayList<>();
 
-		String selQuery = "SELECT * FROM EMPLOYEEDATA";	
-		
+		String selQuery = "SELECT * FROM EMPLOYEEDATA";
+
 		try (Connection con = DriverManager.getConnection(url, user, password);
-			PreparedStatement ps = con.prepareStatement(selQuery);
-			ResultSet result = ps.executeQuery()) {
+				PreparedStatement ps = con.prepareStatement(selQuery);
+				ResultSet result = ps.executeQuery()) {
 
 			while (result.next()) {
 				Employee employee = new Employee();
@@ -108,7 +105,7 @@ public class EmployeDao {
 			}
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
-		} 
+		}
 		return employeeList;
 	}
 
@@ -132,8 +129,7 @@ public class EmployeDao {
 		String upQuery = "UPDATE EMPLOYEEDATA  SET EMPPASSWORD=? WHERE EMPEMAIL = ? AND EMPPASSWORD=?";
 
 		try (Connection con = DriverManager.getConnection(url, user, password);
-			PreparedStatement ps = con.prepareStatement(upQuery)) {
-			
+				PreparedStatement ps = con.prepareStatement(upQuery)) {
 
 			ps.setString(1, employee.getNewpassword());
 			ps.setString(2, employee.getEmployeMail());
@@ -142,9 +138,9 @@ public class EmployeDao {
 			return ps.executeUpdate() > 0;
 		}
 
-		 catch (SQLException sqlEx) {
+		catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();
 		}
-		return false ;
+		return false;
 	}
 }
