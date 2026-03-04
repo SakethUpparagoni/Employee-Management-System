@@ -7,14 +7,15 @@ import com.EmployeeManagementSystem.entity.Employee;
 
 public class EmployeeService {
 
-	// Added Singleton Pattern
+// Added Singleton Pattern The Singleton Pattern is a Creational Design Pattern that ensures:
+// Only one object of a class is created
+//  Provides a global access point to that obj
+	
 	EmployeDao employeDao = EmployeDao.getInstance();
 
 	private static EmployeeService employeeService;
 
-	private EmployeeService() {
-		System.out.println("Employee Service Constructor");
-	}
+	private EmployeeService() {}
 
 	public static EmployeeService getInstance() {
 		if (employeeService == null) {
