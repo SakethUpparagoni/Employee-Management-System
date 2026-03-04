@@ -26,9 +26,7 @@ public class EmployeDao {
 
 	}
 
-	private EmployeDao() {
-		System.out.println("Employee Daoo Constructor");
-	}
+	private EmployeDao() {} // Made Constructor Private
 
 	public static EmployeDao getInstance() {
 		if (employeDao == null) {
@@ -40,7 +38,9 @@ public class EmployeDao {
 	public boolean insertEmployee(Employee employee) {
 
 		String InsQueery = "INSERT INTO EMPLOYEEDATA(EMPNAME, EMPEMAIL, EMPPASSWORD, ROLE_OF_EMP) VALUES(?, ?, ?, ?)";
-		try (Connection con = DriverManager.getConnection(url, user, password);
+
+		try (Connection con = DriverManager.getConnection(url, user, password); // Try-with-Resource where Autocloseable
+																				// objects call Close() automatically
 				PreparedStatement ps = con.prepareStatement(InsQueery)) {
 
 			ps.setString(1, employee.getEmployeName());

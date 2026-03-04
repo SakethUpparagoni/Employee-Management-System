@@ -36,12 +36,12 @@
 			<td><%= emp.getEmployeMail() %></td>
 			<td><%= emp.getLoginPassword() %></td>
 			<td><%= emp.getRoleOfEmployee() %></td>
-			<td><a href="./DeletEmp.jsp?empId=<%= emp.getEmployeId()%>&empMail=<%= emp.getEmployeMail() %>"> Delete</a></td>
+			<td><a href="./JSPFILES/DeletEmp.jsp?empId=<%= emp.getEmployeId()%>&empMail=<%= emp.getEmployeMail() %>"> Delete</a></td>
 		</tr>
 		<%
 		}
 		%>
 	</table>
-		<a href="./signIn.jsp"> Back to home</a>
+		<a href="<%= request.getContextPath() %>/"> Back to home</a>
 </body>
 </html>
