@@ -32,12 +32,12 @@ public class LoginProcessServlet extends HttpServlet {
 		employee.setEmployeMail(email);
 		employee.setLoginPassword(password);;
 		
-		boolean sinInStatus = empService.loginEmployee(employee);
+		Employee emp = empService.loginEmployee(employee);
 		
-		if (sinInStatus) {
+		if (emp != null) {
 			
 			HttpSession session = request.getSession();
-			session.setAttribute("employee", employee);
+			session.setAttribute("employee", emp);
 			
 			response.sendRedirect(request.getContextPath() + "/home");
 		}

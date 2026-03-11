@@ -11,7 +11,7 @@
 
 	<servlet>
 		<servlet-name>Servlet 1</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.loginProcessServlet</servlet-class>
+		<servlet-class>com.EmployeeManagementSystem.servlet.LoginProcessServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -21,7 +21,7 @@
 
 	<servlet>
 		<servlet-name>Servlet 2</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.signUpProcessServlet</servlet-class>
+		<servlet-class>com.EmployeeManagementSystem.servlet.SignUpProcessServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -32,7 +32,7 @@
 
 	<servlet>
 		<servlet-name>Servlet 3</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.employeeListServlet</servlet-class>
+		<servlet-class>com.EmployeeManagementSystem.servlet.EmployeeListServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -43,7 +43,7 @@
 
 	<servlet>
 		<servlet-name>Servlet 4</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.passwordupdateServlet</servlet-class>
+		<servlet-class>com.EmployeeManagementSystem.servlet.PasswordupdateServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

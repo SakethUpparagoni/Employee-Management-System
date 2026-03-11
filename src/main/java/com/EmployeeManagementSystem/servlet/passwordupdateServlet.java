@@ -31,9 +31,8 @@ public class PasswordupdateServlet extends HttpServlet {
 		Employee employee = new Employee();
 		employee.setEmployeMail(email);
 		employee.setLoginPassword(password);
-		employee.setNewPassword(newPassword);
 		
-		boolean changedStatus = empService.changeEmployeePassword(employee);
+		boolean changedStatus = empService.changeEmployeePassword(employee, newPassword);
 		
 		request.setAttribute("employee", employee);
 		

@@ -42,6 +42,6 @@
 		}
 		%>
 	</table>
-		<a href="<%= request.getContextPath() %>/"> Back to home</a>
+		<a href="<%= request.getContextPath() %>/home"> Back to home</a>
 </body>
 </html>

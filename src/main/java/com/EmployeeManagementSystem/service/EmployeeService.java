@@ -29,7 +29,7 @@ public class EmployeeService {
 		return employeDao.insertEmployee(employee);
 	}
 
-	public boolean loginEmployee(Employee employee) {
+	public Employee loginEmployee(Employee employee) {
 		return employeDao.searchEmployee(employee);
 	}
 
@@ -41,8 +41,8 @@ public class EmployeeService {
 		return employeDao.deletEmployee(id, mail);
 	}
 
-	public boolean changeEmployeePassword(Employee employee) {
-		return employeDao.updateEmployeePassword(employee);
+	public boolean changeEmployeePassword(Employee employee, String newPassword) {
+		return employeDao.updateEmployeePassword(employee, newPassword);
 	}
 
 }
