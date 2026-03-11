@@ -1,1 +1,17 @@
-/target/
+# Maven / Build
+
+target/
+
+# Compiled class files
+
+*.class
+
+# Eclipse files
+
+.project
+.classpath
+.settings/
+
+# OS files
+
+.DS_Store
