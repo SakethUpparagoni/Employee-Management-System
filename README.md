@@ -3,7 +3,7 @@
 ## 📌 Project Description
 
 A Java Web Application that allows administrators to manage employee records such as registration, login, updating information, and deleting employees.
-The system follows a layered architecture using **DAO, Service, and Servlet layers**.
+The system follows a layered architecture using **DAO, Service, and Servlet layers, Controllers, Views, Dto**.
 
 ---
 
