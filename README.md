@@ -29,16 +29,25 @@ EmployeeManagementSystem
 ├── dao
 │   └── EmployeeDao.java
 │
+├── dto
+│   └── EmailDto.java
+│   └── PasswordDto.java
+
+│
 ├── service
 │   └── EmployeeService.java
 │
-├── servlet
-│   ├── LoginProcessServlet.java
-│   ├── RegisterServlet.java
-│   └── PasswordUpdateServlet.java
+├── controller
+│   ├── LoginProcessController.java
+│   ├── SignUpProcessController.java
+│   └── PasswordUpdateController.java
 │
-├── utility
-│   └── HibernateUtility.java
+├── webapp
+│   ├── WEB-INF
+│   ├── views
+│   ├── applicationContext.xml
+│   ├── web.xml
+│   └── EmployeeFrontController-servlet.xml
 
 ---
 
