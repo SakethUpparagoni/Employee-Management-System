@@ -1,6 +1,7 @@
 package com.EmployeeManagementSystem.entity;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Column; 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -31,17 +32,19 @@ public class Employee {
 		System.out.println("Employeee Constructor");
 	};
 
-	public Employee(int empoyeId, String employeName, String employeMail, String loginPassword) {
+	public Employee(int empoyeId, String employeName, String employeMail, String loginPassword, String roleOfEmployee) {
 		this.employeId = empoyeId;
 		this.employeName = employeName;
 		this.employeMail = employeMail;
 		this.loginPassword = loginPassword;
+		this.roleOfEmployee = roleOfEmployee;
 	}
 
-	public Employee(String employeName, String employeMail, String loginPassword) {
+	public Employee(String employeName, String employeMail, String loginPassword, String roleOfEmployee) {
 		this.employeName = employeName;
 		this.employeMail = employeMail;
 		this.loginPassword = loginPassword;
+		this.roleOfEmployee = roleOfEmployee;
 	}
 
 	public int getEmployeId() {

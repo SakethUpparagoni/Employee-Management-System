@@ -1,10 +1,5 @@
 package com.EmployeeManagementSystem.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +7,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import com.EmployeeManagementSystem.dto.EmailDto;
+import com.EmployeeManagementSystem.dto.PasswordDto;
 import com.EmployeeManagementSystem.entity.Employee;
-import com.EmployeeManagementSystem.utility.HibernateUtility;
 
+@Repository
 public class EmployeDao {
 
-	// Added Singleton Pattern
-	private static EmployeDao employeDao;
-	private static final SessionFactory factory = HibernateUtility.getSessionFactory();
+//	private static EmployeDao employeDao;
+	@Autowired
+	private SessionFactory factory;
 //	private static final String url = "jdbc:mysql://localhost:3306/employeeinfo";
 //	private static final String user = "root";
 //	private static final String password = "2106";
@@ -35,16 +34,15 @@ public class EmployeDao {
 //
 //	}
 
-	private EmployeDao() {
-	} // Made Constructor Private
-
-	public static synchronized EmployeDao getInstance() {
-		if (employeDao == null) {
-			employeDao = new EmployeDao();
-		}
-		return employeDao;
-	}
-
+//	private EmployeDao() {
+//	} // Made Constructor Private
+//
+//	public static synchronized EmployeDao getInstance() {
+//		if (employeDao == null) {
+//			employeDao = new EmployeDao();
+//		}
+//		return employeDao;
+//	}
 	public boolean insertEmployee(Employee employee) {
 
 		Session session = factory.openSession();
@@ -76,6 +74,23 @@ public class EmployeDao {
 
 		return emp;
 
+	}
+
+	public Employee getEmployeeByEmail(Employee employee) {
+
+		Session session = factory.openSession();
+
+		String hql = "FROM Employee e WHERE e.employeMail = :mail";
+
+		Query<Employee> query = session.createQuery(hql, Employee.class);
+
+		query.setParameter("mail", employee.getEmployeMail());
+
+		Employee emp = query.uniqueResult();
+
+		session.close();
+
+		return emp;
 	}
 
 	public ArrayList<Employee> selectAllEmployees() {
@@ -112,20 +127,53 @@ public class EmployeDao {
 		return result > 0;
 	}
 
-	public boolean updateEmployeePassword(Employee employee, String newPassword) {
-		boolean isPasswordChanged = false;
+	public boolean updateEmployeePassword(PasswordDto dto) {
+
+		Session session = factory.openSession();
+		Transaction tx = null;
+		boolean isUpdated = false;
+
+		try {
+			tx = session.beginTransaction();
+
+			String hql = "UPDATE Employee e SET e.loginPassword = :newPassword "
+					+ " WHERE e.employeMail = :mail AND e.loginPassword = :oldPassword";
+
+			Query<?> query = session.createQuery(hql);
+
+			query.setParameter("newPassword", dto.getNewPassword());
+			query.setParameter("mail", dto.getEmployeeMail());
+			query.setParameter("oldPassword", dto.getOldPassword());
+
+			int result = query.executeUpdate();
+
+			tx.commit();
+			isUpdated = result > 0;
+
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return isUpdated;
+	}
+
+	public boolean updateEmployeeEmail(EmailDto dto) {
 
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 
-		String hql = "UPDATE Employee SET loginPassword = :newPassword "
-				+ "WHERE employeMail = :mail AND loginPassword = :oldPassword";
+		String hql = "UPDATE Employee SET employeMail = :newEmail "
+				+ " WHERE employeMail = :mail AND loginPassword = :password";
 
 		Query query = session.createQuery(hql);
 
-		query.setParameter("newPassword", newPassword);
-		query.setParameter("mail", employee.getEmployeMail());
-		query.setParameter("oldPassword", employee.getLoginPassword());
+		query.setParameter("newEmail", dto.getNewEmailnewEmail());
+		query.setParameter("mail", dto.getOldEmail());
+		query.setParameter("password", dto.getPassword());
 
 		int result = query.executeUpdate();
 
@@ -133,5 +181,45 @@ public class EmployeDao {
 		session.close();
 
 		return result > 0;
+	}
+
+	public void deleteEmployeeById(int id) {
+
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+
+		Employee emp = (Employee) session.get(Employee.class, id);
+
+		if (emp != null) {
+			session.delete(emp);
+		}
+		tx.commit();
+		session.close();
+
+	}
+
+	public Employee getEmployeeEId(int id) {
+
+		Session session = factory.openSession();
+		Employee emp = null;
+		try {
+			 emp = (Employee) session.get(Employee.class, id);
+
+		} finally {
+			session.close();
+		}
+		return emp;
+
+	}
+	
+	 public void updateEmployee(Employee emp) {
+
+		 Session session = factory.openSession();
+		    Transaction tx = session.beginTransaction();
+
+		    session.update(emp);
+
+		    tx.commit();
+		    session.close();
 	}
 }

@@ -1,17 +1,35 @@
-# Maven / Build
+#include<stdio.h> 
 
-target/
+void main() {
+    int i, j, bt[10], n, wt[10], tt[10], w1 = 0, t1 = 0; 
+    float aw, at;
 
-# Compiled class files
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
 
-*.class
+    printf("Enter the burst time of processes: "); 
+    for(i = 0; i < n; i++)
+        scanf("%d", &bt[i]);
 
-# Eclipse files
+    for(i = 0; i < n; i++) {
+        wt[0] = 0;
+        tt[0] = bt[0];
+        wt[i + 1] = bt[i] + wt[i];
+        tt[i + 1] = tt[i] + bt[i + 1];  // Added missing semicolon
+        w1 = w1 + wt[i];
+        t1 = t1 + tt[i];
+    }
 
-.project
-.classpath
-.settings/
+    aw = (float)w1 / n;
+    at = (float)t1 / n;
 
-# OS files
+    printf("\nbt\t wt\t tt\n");
+    for(i = 0; i < n; i++) 
+        printf("%d\t%d\t%d\n", bt[i], wt[i], tt[i]);  // Fixed array access
+    
+    printf("aw = %f\nat = %f\n", aw, at);  // Fixed quotes
+}
+ 
+  
 
-.DS_Store
+/target/
