@@ -10,12 +10,16 @@ The system follows a layered architecture using **DAO, Service, and Servlet laye
 ## 🛠 Tech Stack
 
 * Java
+* Spring
+* Springboot
+* SpringMVC
 * Servlets
 * JSP
 * Hibernate ORM
 * MySQL
 * Apache Tomcat
 * HTML / CSS
+* Javascript
 
 ---
 
