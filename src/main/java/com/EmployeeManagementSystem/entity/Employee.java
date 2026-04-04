@@ -1,23 +1,50 @@
 package com.EmployeeManagementSystem.entity;
 
+import jakarta.persistence.Column; 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "EMPLOYEEDATA")
 public class Employee {
 
+	@Id
+	@GeneratedValue(generator = "increment")
+	@Column(name = "EmpId")
 	private int employeId;
+
+	@Column(name = "EmpName")
 	private String employeName;
+
+	@Column(name = "empEmail")
 	private String employeMail;
+
+	@Column(name = "empPassword")
 	private String loginPassword;
-	private String newPassword;
+
+	@Column(name = "role_of_emp")
 	private String roleOfEmployee;
 
 	public Employee() {
 		System.out.println("Employeee Constructor");
 	};
 
-	public Employee(int empoyeId, String employeName, String employeMail, String loginPassword) {
+	public Employee(int empoyeId, String employeName, String employeMail, String loginPassword, String roleOfEmployee) {
 		this.employeId = empoyeId;
 		this.employeName = employeName;
 		this.employeMail = employeMail;
 		this.loginPassword = loginPassword;
+		this.roleOfEmployee = roleOfEmployee;
+	}
+
+	public Employee(String employeName, String employeMail, String loginPassword, String roleOfEmployee) {
+		this.employeName = employeName;
+		this.employeMail = employeMail;
+		this.loginPassword = loginPassword;
+		this.roleOfEmployee = roleOfEmployee;
 	}
 
 	public int getEmployeId() {
@@ -36,9 +63,7 @@ public class Employee {
 		return loginPassword;
 	}
 
-	public String getNewpassword() {
-		return newPassword;
-	}
+
 
 	public String getRoleOfEmployee() {
 		return roleOfEmployee;
@@ -60,9 +85,6 @@ public class Employee {
 		this.loginPassword = loginPassword;
 	}
 
-	public void setNewPassword(String newpassword) {
-		this.newPassword = newpassword;
-	}
 
 	public void setRoleOfEmployee(String roleOfEmployee) {
 		this.roleOfEmployee = roleOfEmployee;

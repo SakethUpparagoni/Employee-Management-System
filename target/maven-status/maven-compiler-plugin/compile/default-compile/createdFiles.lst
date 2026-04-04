@@ -1,3 +1,14 @@
-com\EmployeeManagementSystem\service\EmployeeService.class
+com\EmployeeManagementSystem\controller\DeleteController.class
+com\EmployeeManagementSystem\controller\PasswordUpdateController.class
+com\EmployeeManagementSystem\controller\SignUpProcessController.class
 com\EmployeeManagementSystem\entity\Employee.class
+com\EmployeeManagementSystem\controller\LoginProcessController.class
 com\EmployeeManagementSystem\dao\EmployeDao.class
+com\EmployeeManagementSystem\dto\EmailDto.class
+com\EmployeeManagementSystem\service\EmployeeService.class
+com\EmployeeManagementSystem\controller\EmployeeListController.class
+com\EmployeeManagementSystem\controller\LogoutController.class
+com\EmployeeManagementSystem\controller\HomeController.class
+com\EmployeeManagementSystem\controller\editEmployeeController.class
+com\EmployeeManagementSystem\controller\EmailUpdateController.class
+com\EmployeeManagementSystem\dto\PasswordDto.class

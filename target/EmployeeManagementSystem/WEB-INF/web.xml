@@ -5,69 +5,21 @@
 	xmlns:xml="http://www.w3.org/XML/1998/namespace"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
-	<welcome-file-list>
-		<welcome-file>home</welcome-file>
-	</welcome-file-list>
 
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
 	<servlet>
-		<servlet-name>Servlet 1</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.loginProcessServlet</servlet-class>
+		<servlet-name>EmployeeFrontController</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Servlet 1</servlet-name>
-		<url-pattern>/login</url-pattern>
+		<servlet-name>EmployeeFrontController</servlet-name>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>Servlet 2</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.signUpProcessServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Servlet 2</servlet-name>
-		<url-pattern>/signUp</url-pattern>
-	</servlet-mapping>
-
-
-	<servlet>
-		<servlet-name>Servlet 3</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.employeeListServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Servlet 3</servlet-name>
-		<url-pattern>/empList</url-pattern>
-	</servlet-mapping>
-
-
-	<servlet>
-		<servlet-name>Servlet 4</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.passwordupdateServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Servlet 4</servlet-name>
-		<url-pattern>/passwordUpdate</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>Servlet 5</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.HomeServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Servlet 5</servlet-name>
-		<url-pattern>/home</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>LogoutServlet</servlet-name>
-		<servlet-class>com.EmployeeManagementSystem.servlet.LogoutServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>LogoutServlet</servlet-name>
-		<url-pattern>/logout</url-pattern>
-	</servlet-mapping>
 </web-app>

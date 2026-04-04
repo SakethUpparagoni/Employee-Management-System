@@ -2,34 +2,49 @@ package com.EmployeeManagementSystem.service;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.EmployeeManagementSystem.dao.EmployeDao;
+import com.EmployeeManagementSystem.dto.EmailDto;
+import com.EmployeeManagementSystem.dto.PasswordDto;
 import com.EmployeeManagementSystem.entity.Employee;
 
+@Service
 public class EmployeeService {
 
 // Added Singleton Pattern The Singleton Pattern is a Creational Design Pattern that ensures:
 // Only one object of a class is created
 //  Provides a global access point to that obj
-	
-	EmployeDao employeDao = EmployeDao.getInstance();
 
-	private static EmployeeService employeeService;
+	private EmployeDao employeDao;
 
-	private EmployeeService() {}
+//	private static EmployeeService employeeService;
 
-	public static EmployeeService getInstance() {
-		if (employeeService == null) {
-			employeeService = new EmployeeService();
-		}
-		return employeeService;
+	@Autowired
+	private EmployeeService(EmployeDao employeDao) {
+		this.employeDao = employeDao;
 	}
+//
+//	public static EmployeeService getInstance() {
+//		if (employeeService == null) {
+//			employeeService = new EmployeeService();
+//		}
+//		return employeeService;
+//	}
 
 	public boolean signUpEmployee(Employee employee) {
+
+		Employee existing = employeDao.getEmployeeByEmail(employee);
+
+		if (existing != null) {
+			return false;
+		}
 
 		return employeDao.insertEmployee(employee);
 	}
 
-	public boolean loginEmployee(Employee employee) {
+	public Employee loginEmployee(Employee employee) {
 		return employeDao.searchEmployee(employee);
 	}
 
@@ -41,8 +56,22 @@ public class EmployeeService {
 		return employeDao.deletEmployee(id, mail);
 	}
 
-	public boolean changeEmployeePassword(Employee employee) {
-		return employeDao.updateEmployeePassword(employee);
+	public boolean updatePassword(PasswordDto dto) {
+		return employeDao.updateEmployeePassword(dto);
+	}
+
+	public boolean updateEmail(EmailDto dto) {
+		return employeDao.updateEmployeeEmail(dto);
+	}
+	public Employee getEmployeeById(int id) {
+		return employeDao.getEmployeeEId(id);
+	}
+	public void deleteEmployeeById(int id) {
+		employeDao.deleteEmployeeById(id);
+	}
+	
+	public void updateEmployee(Employee emp) {
+		 employeDao.updateEmployee(emp);
 	}
 
 }
