@@ -46,12 +46,12 @@ EmployeeManagementSystem
 │   ├── SignUpProcessController.java
 │   └── PasswordUpdateController.java
 │
-├── webapp
-│   ├── WEB-INF
-│   ├── views
-│   ├── applicationContext.xml
-│   ├── web.xml
-│   └── EmployeeFrontController-servlet.xml
+├── META-INF
+│   ├──resources
+│        ├── WEB-INF
+│        ├── views
+│        └── applicationContext.xml
+│       
 
 ---
 
@@ -60,8 +60,9 @@ EmployeeManagementSystem
 * Employee Registration
 * Employee Login Authentication
 * Update Employee Password
-* Delete Employee Record
+* Delete Employee Record (Soft Delete allows employee to be deactivated and restric access to system)
 * View All Employees
+* Premium UI for HR, Admin, EMployees and UX also been Shaped accordingly
 
 ---
 
@@ -70,10 +71,12 @@ EmployeeManagementSystem
 1. Clone the repository
 2. Import project into Eclipse
 3. Configure MySQL database
-4. Run using Apache Tomcat Server
+4. Run using Maven Spring run Command:  mvn spring-boot:run
+5. Make sure your Database table coulmns match with the Entity class.
 
 ---
 
 ## 👨‍💻 Author
-
 Saketh Upparagoni
+
+Linkedin: https://www.linkedin.com/in/saketh-upparagoni-5b0913399/
